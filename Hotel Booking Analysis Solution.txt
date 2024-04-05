@@ -1,0 +1,52 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 1: Read Data from Excel File
+df = pd.read_excel('hotel_booking_data.xlsx')
+
+# Analyze booking trends over months
+plt.figure(figsize=(10, 6))
+sns.countplot(x='arrival_date_month', data=df, order=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
+plt.title('Monthly Booking Trends')
+plt.xlabel('Month')
+plt.ylabel('Number of Bookings')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Analyze average daily rate (ADR) over months
+plt.figure(figsize=(10, 6))
+sns.barplot(x='arrival_date_month', y='adr', data=df, order=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
+plt.title('Average Daily Rate (ADR) by Month')
+plt.xlabel('Month')
+plt.ylabel('ADR')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Analyze distribution of booking lengths
+plt.figure(figsize=(10, 6))
+sns.histplot(df['stays_in_weekend_nights'] + df['stays_in_week_nights'], bins=30, kde=False)
+plt.title('Distribution of Booking Lengths')
+plt.xlabel('Length of Stay (Nights)')
+plt.ylabel('Frequency')
+plt.tight_layout()
+plt.show()
+
+# Analyze relationship between length of stay and ADR
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='stays_in_weekend_nights' + df['stays_in_week_nights'], y='adr', data=df)
+plt.title('Relationship between Length of Stay and ADR')
+plt.xlabel('Length of Stay (Nights)')
+plt.ylabel('ADR')
+plt.tight_layout()
+plt.show()
+
+# Analyze correlation between special requests and other features
+correlation_matrix = df.corr()
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+plt.title('Correlation Matrix')
+plt.tight_layout()
+plt.show()
